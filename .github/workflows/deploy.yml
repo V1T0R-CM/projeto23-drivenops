@@ -16,7 +16,7 @@ jobs:
       - name: Create back-end env file
         uses: SpicyPizza/create-envfile@v1.3
         
-        width:
+        with:
           envkey_POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
           envkey_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
           envkey_POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
@@ -28,7 +28,7 @@ jobs:
       - name: Create front-end env file
         uses: SpicyPizza/create-envfile@v1.3
 
-        width:
+        with:
           envkey_REACT_APP_BASE_URL: ${{ secrets.REACT_APP_BASE_URL }}
           directory: front-end/
           file_name: .env
