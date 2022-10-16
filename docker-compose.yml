@@ -1,0 +1,44 @@
+version: "3"
+services:
+  postgres_drivenops_db:
+    image: postgres
+    container_name: postgres_drivenops_db
+    restart: always
+    ports:
+      - 4457:5432
+    env_file:
+      - ./back-end/.env
+    volumes:
+      - pg_drivenops_db:/var/lib/postgresql/data
+
+  drivenops_back:
+    build: ./back-end
+    container_name: drivenops_back
+    ports:
+      - 5000:5000
+    depends_on:
+      - postgres_drivenops_db
+    env_file:
+      - ./back-end/.env
+
+  drivenops_front:
+    build: ./front-end
+    container_name: drivenops_front
+    volumes:
+      - build_react:/var/www/html
+
+  drivenops_nginx:
+    build: ./nginx
+    container_name: drivenops_nginx
+    ports:
+      - 80:80
+    volumes:
+      - build_react:/var/www/html
+    depends_on:
+      - postgres_drivenops_db
+      - drivenops_back
+      - drivenops_front
+
+volumes:
+  pg_drivenops_db:
+  build_react:
